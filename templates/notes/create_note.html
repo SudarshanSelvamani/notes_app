@@ -32,6 +32,7 @@
                 </div> 
                 <div>
                     {{form.notebook|addclass:"box-border border-2 border-indigo-900 max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"}}
+                    <a href={% url 'notebooks:create_notebook' %} id="add_notebook" onclick="return showAddPopup(this);"><img width="15px" class = "mt-2" src = "{% static '/notes/icon-addlink.svg' %}"></a>
                 </div> 
                 <div class = "mt-2">
                     <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
@@ -60,6 +61,9 @@
         </div>   
     </form>
 </div>
-
+{% block scripts %}
+<script src="{% static 'notes/open_and_close_popup.js' %}"></script>
 <script src="{% static 'notes/markdown_to_html.js' %}"></script>
+{% endblock scripts %}
+
 {% endblock content %}

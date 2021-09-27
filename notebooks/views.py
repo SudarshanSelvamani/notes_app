@@ -1,8 +1,11 @@
 from django.views.generic import ListView
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.http import HttpResponse
 
 from notes.models import Notebook, Note
+from .forms import NotebookForm
 
 
 class NoteListView(ListView):
@@ -22,3 +25,15 @@ class NoteListView(ListView):
         context = super().get_context_data(**kwargs)
         context["notebooks"] = Notebook.objects.annotate(Count("note"))
         return context
+
+
+def notebook_create_popup(request):
+    form = NotebookForm(request.POST or None)
+    if form.is_valid():
+        instance = form.save()
+        return HttpResponse(
+            '<script>opener.closePopup(window, "%s", "%s", "#id_notebook");</script>'
+            % (instance.pk, instance)
+        )
+    else:
+        return render(request, "notes/create_notebook.html", {"form": form})
