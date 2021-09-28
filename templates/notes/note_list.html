@@ -68,6 +68,15 @@
       </div>
 
       <main class="flex-1 relative overflow-y-auto focus:outline-none">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div class="bg-indigo-700 pt-4 text-white" role="alert">
+                    <li>{{ message }}</li>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
         <div class="py-6">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -90,7 +99,7 @@
                     <div>
                         <div class="-mt-px flex divide-x divide-gray-200">
                         <div class="-ml-px w-0 flex-1 flex">
-                            <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                            <a href="{% url 'notes:delete' note.notebook.id note.id %}" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                             <span class="ml-1 text-red-500">Delete</span>
                             </a>
                         </div>

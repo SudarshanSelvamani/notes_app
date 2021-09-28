@@ -78,3 +78,18 @@ class TestNoteUpdateView(TestCase, create_mixin.Mixin):
         )
 
         self.assertEqual(Note.objects.last().title, "Test Note")
+
+
+class TestNoteDeleteView(TestCase, create_mixin.Mixin):
+    def setUp(self):
+        self.notebook = self.create_notebook()
+        self.note = self.create_note(notebook=self.notebook)
+
+    def test_page_serve_successful(self):
+        url = reverse("notes:delete", args=[self.notebook.pk, self.note.pk])
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_url_resolve_note_delete_object(self):
+        view = resolve(f"/notes/{self.notebook.pk}/delete/{self.note.pk}")
+        self.assertEquals(view.func.view_class, views.NoteDeleteView)
