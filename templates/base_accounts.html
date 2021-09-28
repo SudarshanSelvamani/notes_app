@@ -1,0 +1,15 @@
+<head>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+{% load static %}
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      Notes
+    </h1>
+    {% block content %}
+    {% endblock %}
+  </div>
+{% endblock %}

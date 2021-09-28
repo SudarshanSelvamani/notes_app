@@ -4,11 +4,14 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from notes.models import Notebook, Note
 from .forms import NotebookForm
 
 
+@method_decorator(login_required, name="dispatch")
 class NoteListView(ListView):
     model = Note
     paginate_by = 6
@@ -28,6 +31,7 @@ class NoteListView(ListView):
         return context
 
 
+@login_required
 def notebook_create_popup(request):
     form = NotebookForm(request.POST or None)
     if form.is_valid():
@@ -40,6 +44,7 @@ def notebook_create_popup(request):
         return render(request, "notes/create_notebook.html", {"form": form})
 
 
+@method_decorator(login_required, name="dispatch")
 class NotebookUpdateView(UpdateView):
     model = Notebook
     form_class = NotebookForm
