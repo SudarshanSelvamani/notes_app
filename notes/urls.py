@@ -9,4 +9,7 @@ urlpatterns = [
     path(
         "<str:pk>/update/<str:note_pk>", views.NoteUpdateView.as_view(), name="update"
     ),
+    path(
+        "<str:pk>/delete/<str:note_pk>", views.NoteDeleteView.as_view(), name="delete"
+    ),
 ]

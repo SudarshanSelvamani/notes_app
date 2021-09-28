@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib import messages
 
 from .forms import NoteForm
 from .models import Note
@@ -25,4 +26,14 @@ class NoteUpdateView(UpdateView):
     template_name = "notes/create_note.html"
 
     def get_success_url(self):
+        return reverse("notebooks:notes_list", args=[self.kwargs.get("pk")])
+
+
+class NoteDeleteView(DeleteView):
+    model = Note
+    pk_url_kwarg = "note_pk"
+    template_name = "notes/delete.html"
+
+    def get_success_url(self):
+        messages.success(self.request, "Note was deleted successfully.")
         return reverse("notebooks:notes_list", args=[self.kwargs.get("pk")])
