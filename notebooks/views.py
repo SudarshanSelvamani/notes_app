@@ -1,8 +1,9 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.urls import reverse
 
 from notes.models import Notebook, Note
 from .forms import NotebookForm
@@ -37,3 +38,12 @@ def notebook_create_popup(request):
         )
     else:
         return render(request, "notes/create_notebook.html", {"form": form})
+
+
+class NotebookUpdateView(UpdateView):
+    model = Notebook
+    form_class = NotebookForm
+    template_name = "notes/create_notebook.html"
+
+    def get_success_url(self):
+        return reverse("notebooks:notes_list", args=[self.kwargs.get("pk")])

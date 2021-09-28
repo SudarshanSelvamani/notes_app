@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 {% load myfilters %}
+{% load static %}
 
 <div class="h-screen flex overflow-hidden bg-gray-100">
     <div class="fixed inset-0 flex z-40 md:hidden" role="dialog" aria-modal="true">
@@ -33,10 +34,13 @@
                 Create Note
               </a>
             {% for notebook in notebooks %}
-              <a href="{% url 'notebooks:notes_list' notebook.id %}" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <div class = "flex justify-end">
+              <a href="{% url 'notebooks:notes_list' notebook.id %}" class="mx-6 text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                 {{notebook.name}}
                 <span class="ml-4 p-4 px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{notebook.note__count}}</span>
+            <a class = "px-1 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full" href = "{% url 'notebooks:update_notebook' notebook.id %}"><img width="10px"  src = "{% static '/notes/edit.svg' %}"></a>
             </a>
+            </div>
 
 
             {% endfor %}
