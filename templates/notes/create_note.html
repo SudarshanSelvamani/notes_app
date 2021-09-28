@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load myfilters %}
+{% load static %}
+<head>
+    <script src = "https://code.jquery.com/jquery-1.12.2.js"
+    integrity="sha256-VUCyr0ZXB5VhBibo2DkTVhdspjmxUgxDGaLQx7qb7xY="
+    crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.4/marked.min.js" integrity="sha512-a+W0h6Sho4fGYABZAQg6zdWP/qtyE+gzeVfNB/UApXRLuHKh7bT3TeA/LUOno+pcDjX0Vfzgtz6crFQC3YL9lA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<link rel="stylesheet" href= "{% static 'notes/headers.css' %}">
+<div>
+    <form method = "POST">
+        {% csrf_token %}
+        <div class = "grid grid-cols-7 ">
+            <div class = "col-span-1" >
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                        Title:
+                    </label>
+                </div>
+                <div>
+                    {{form.title|addclass:"title box-border border-2 border-indigo-900 max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"}}
+                </div>
+                <div class = "mt-2">
+                    <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                        Notebook:
+                    </label>
+                </div> 
+                <div>
+                    {{form.notebook|addclass:"box-border border-2 border-indigo-900 max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"}}
+                </div> 
+                <div class = "mt-2">
+                    <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                        Tag:
+                    </label>
+                </div>
+                <div>
+                    {{form.tag|addclass:"box-border border-2 border-indigo-900 max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"}}
+                </div>
+            </div>
+            <div class="col-span-3 ml-36 mt-6">
+                {{form.body|addclass:"body p-2 shadow-lg box-border border-2 border-indigo-900 block focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"}}
+            </div>
+        
+            <div class = "col-span-3 p-2 ml-28 mt-6 bg-white shadow-lg box-border border-2 border-indigo-900 rounded-md">
+                <h3 id="preview-title"></h3>
+                <div id="preview-body"></div>
+            </div>
+        </div> 
+        <div class="pt-5">
+            <div class="flex justify-end">
+            <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" value="Save">
+                Save
+            </button>
+            </div>
+        </div>   
+    </form>
+</div>
+
+<script src="{% static 'notes/markdown_to_html.js' %}"></script>
+{% endblock content %}

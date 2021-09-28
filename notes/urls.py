@@ -4,4 +4,6 @@ from . import views
 
 app_name = "notes"
 
-urlpatterns = []
+urlpatterns = [
+    path("create", views.NoteCreateView.as_view(), name="create"),
+]
