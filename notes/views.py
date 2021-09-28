@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView
 
 from .forms import NoteForm
+from .models import Note
 
 
 class NoteCreateView(CreateView):
@@ -15,3 +16,13 @@ class NoteCreateView(CreateView):
 
     def get_success_url(self):
         return reverse("notebooks:notes_list", args=[str(self.selected_notebook.id)])
+
+
+class NoteUpdateView(UpdateView):
+    model = Note
+    form_class = NoteForm
+    pk_url_kwarg = "note_pk"
+    template_name = "notes/create_note.html"
+
+    def get_success_url(self):
+        return reverse("notebooks:notes_list", args=[self.kwargs.get("pk")])
