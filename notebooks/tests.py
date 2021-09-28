@@ -55,3 +55,33 @@ class TestNoteBookCreateView(TestCase, Mixin):
         )
 
         self.assertEqual(Notebook.objects.last().name, "Test Notebook")
+
+
+class TestNoteBookUpdateView(TestCase, create_mixin.Mixin):
+    def setUp(self):
+        self.notebook = self.create_notebook()
+
+    def test_page_serve_successful(self):
+        url = reverse("notebooks:update_notebook", args=[self.notebook.pk])
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_url_resolve_notebook_update_object(self):
+        view = resolve(f"/notebooks/{self.notebook.pk}/update")
+        self.assertEquals(view.func.view_class, views.NotebookUpdateView)
+
+    def test_presence_of_csrf(self):
+        url = reverse("notebooks:update_notebook", args=[self.notebook.pk])
+        response = self.client.get(url)
+        self.assertContains(response, "csrfmiddlewaretoken")
+
+    def test_note_save(self):
+
+        self.client.post(
+            f"/notebooks/{self.notebook.pk}/update",
+            {
+                "name": "Test Notebook",
+            },
+        )
+
+        self.assertEqual(Notebook.objects.last().name, "Test Notebook")
